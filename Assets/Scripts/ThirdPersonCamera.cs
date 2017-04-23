@@ -14,15 +14,11 @@ public class ThirdPersonCamera : MonoBehaviour
     public float minDistance;
     public float maxDistance;
 
-    private Transform blobsCam;
-
     private bool hasStarted;
 
 
     void Start ()
     {
-        blobsCam = GameObject.Find("BlobsCamera").transform;
-
         hasStarted = false;
     }
 
@@ -64,10 +60,6 @@ public class ThirdPersonCamera : MonoBehaviour
 
             // Unzooming
             //target.position = new Vector3(transform.position.x, transform.position.y + unzoomSpeed * Time.deltaTime, transform.position.z);
-
-            // Update blobs camera
-            //blobsCam.position = transform.position;
-            //blobsCam.rotation = transform.rotation;
         }
     }
 }

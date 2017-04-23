@@ -17,43 +17,42 @@ public class Player : MonoBehaviour
 		}
 	}
 
-    public float timeBetweenMove;
+    public float speed;
     public float rotationSpeed;
     public float sizeIncreaseFactor;
-    public float sizeChangeTime;
     public float minGroundDistance;
     public float maxSize;
     public Link linkPrefab;
+    public Transform lerpLinkPrefab;
 
     private ThirdPersonCamera cam;
     private Link[] links;
     private List<Transform> collectibleLinks;
     private Transform front;
+    private Transform lerpLink;
 
-    private float lastMoveTime;
     private float sizeMultiplier;
-    private bool sizeChange;
-    private float sizeChangeTimer;
     private bool canStart;
+    private float moveAccu;
 
 
     private void Awake()
     {
-        lastMoveTime = 0f;
         sizeMultiplier = 1;
-        sizeChange = false;
-        sizeChangeTimer = 0f;
         canStart = false;
+        moveAccu = 0f;
 
         cam = GameObject.FindObjectOfType<ThirdPersonCamera>();
         links = new Link[1];
         collectibleLinks = new List<Transform>();
         front = new GameObject("Front").transform;
         front.parent = transform;
+        lerpLink = Instantiate(lerpLinkPrefab, transform.position, Quaternion.identity, transform);
 
         links[0] = Instantiate(linkPrefab, transform.position, Quaternion.identity, transform);
         links[0].init(0, getSize(0, 1));
         front.position = links[0].transform.position;
+        lerpLink.position = front.position + front.forward * links[0].size;
 
         Transform linksFolder = GameObject.Find("Links").transform;
         for (int i = 0; i < linksFolder.childCount; i++)
@@ -78,6 +77,7 @@ public class Player : MonoBehaviour
             }
 
             front.position = links[0].transform.position;
+            lerpLink.position = front.position + front.forward * links[0].size;
         }
         else
         {
@@ -100,6 +100,7 @@ public class Player : MonoBehaviour
                 }
             }
             front.position = links[0].transform.position;
+            lerpLink.position = front.position + front.forward * links[0].size;
             cam.init();
         }
     }
@@ -120,7 +121,8 @@ public class Player : MonoBehaviour
             // Body movement
             if (input.y > 0)
             {
-                if (Time.time - lastMoveTime >= timeBetweenMove)
+                moveAccu += speed * Time.deltaTime;
+                if (moveAccu >= (links[links.Length - 1].radius + links[0].radius))
                 {
                     if (links.Length > 1)
                     {
@@ -134,17 +136,23 @@ public class Player : MonoBehaviour
                         links[0] = last;
                         links[0].init(0, getSize(0, links.Length));
 
-                        links[0].transform.position = links[1].transform.position + (links[0].radius + links[1].radius) * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
+                        links[0].transform.position = links[1].transform.position + (links[0].radius + links[1].radius) * front.forward.normalized;
 
                         links[1].addJoint();
                         links[1].connect(links[0]);
                     }
                     else
                     {
-                        links[0].transform.position += links[0].size * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
+                        links[0].transform.position += front.forward.normalized * links[0].size;
                     }
 
-                    lastMoveTime = Time.time;
+                    moveAccu = 0f;
+                    lerpLink.localScale = Vector3.one;
+                }
+                else
+                {
+                    float newScale = links[0].size * (moveAccu / (links[links.Length - 1].radius + links[0].radius));
+                    lerpLink.localScale = new Vector3(newScale, newScale, newScale);
                 }
             }
         }
