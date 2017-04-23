@@ -62,7 +62,7 @@ public class Link : MonoBehaviour
         RaycastHit hitInfo;
         if (Physics.Raycast(transform.position, -transform.up, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            if (hitInfo.distance < Player.instance.minGroundDistance)
+            if (hitInfo.distance - radius < Player.instance.minGroundDistance)
             {
                 grounded = true;
                 thisRigidbody.drag = drag;

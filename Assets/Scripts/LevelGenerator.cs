@@ -52,7 +52,7 @@ public class LevelGenerator : MonoBehaviour
                 heights[i, j] = Mathf.PerlinNoise(orig.x + i / perlinNoiseFactor, orig.y + j / perlinNoiseFactor) / 2f;
             }
         }
-        //terrainData.SetHeights(0, 0, heights);
+        terrainData.SetHeights(0, 0, heights);
     }
 	
 	void Update ()
