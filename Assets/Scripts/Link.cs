@@ -35,15 +35,6 @@ public class Link : MonoBehaviour
         
     }
 
-    public void spawn()
-    {
-        RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
-        {
-            transform.position = hitInfo.point;
-        }
-    }
-
     public void init (int index, float size)
     {
         this.index = index;
@@ -99,14 +90,11 @@ public class Link : MonoBehaviour
         thisJoint.connectedBody = link.thisRigidbody;
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter (Collider collider)
     {
-        if (CompareTag("Link"))
+        if (collider.CompareTag("CollectibleLink"))
         {
-            if (collision.collider.CompareTag("CollectibleLink"))
-            {
-                Player.instance.addNewLink(collision.collider.GetComponent<Link>());
-            }
+            Player.instance.addNewLink(collider.transform);
         }
     }
 }

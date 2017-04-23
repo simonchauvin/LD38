@@ -54,8 +54,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   perlinNoiseFactor: 100
-  headPrefab: {fileID: 4442149100781808, guid: 28dd81931c9ea774b88c473ebd3d1c13, type: 2}
-  linkPrefab: {fileID: 4442149100781808, guid: ddce6a0eda244304e96e5a82d6f02e0d, type: 2}
+  collectibleLinkPrefab: {fileID: 4442149100781808, guid: 2efdfe1146d93b548a341c532cfc9911,
+    type: 2}
   minCollectibleHeads: 4
   maxCollectibleHeads: 8
   minCollectibleLinks: 200

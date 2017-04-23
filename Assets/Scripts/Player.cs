@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
     private ThirdPersonCamera cam;
     private Link[] links;
-    private List<Link> collectibleLinks;
+    private List<Transform> collectibleLinks;
     private Transform front;
 
     private float lastMoveTime;
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
 
         cam = GameObject.FindObjectOfType<ThirdPersonCamera>();
         links = new Link[1];
-        collectibleLinks = new List<Link>();
+        collectibleLinks = new List<Transform>();
         front = new GameObject("Front").transform;
         front.parent = transform;
 
@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
         Transform linksFolder = GameObject.Find("Links").transform;
         for (int i = 0; i < linksFolder.childCount; i++)
         {
-            collectibleLinks.Add(linksFolder.GetChild(i).GetComponent<Link>());
+            collectibleLinks.Add(linksFolder.GetChild(i));
         }
     }
 
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
             // Debug
             if (Input.GetKey(KeyCode.F))
             {
-                addNewLink(Instantiate(linkPrefab));
+                addNewLink(null);
             }
 
             front.position = links[0].transform.position;
@@ -84,11 +84,20 @@ public class Player : MonoBehaviour
             canStart = true;
             for (int i = 0; i < links.Length; i++)
             {
-                links[i].spawn();
+                RaycastHit hitInfo;
+                if (Physics.Raycast(links[i].transform.position, Vector3.down, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
+                {
+                    links[i].transform.position = hitInfo.point + new Vector3(0f, links[i].radius, 0f);
+                }
             }
             for (int i = 0; i < collectibleLinks.Count; i++)
             {
-                collectibleLinks[i].spawn();
+                RaycastHit hitInfo;
+                if (Physics.Raycast(collectibleLinks[i].position, Vector3.down, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
+                {
+                    collectibleLinks[i].localScale = new Vector3(maxSize, maxSize, maxSize);
+                    collectibleLinks[i].position = hitInfo.point + new Vector3(0f, maxSize * 0.5f, 0f);
+                }
             }
             front.position = links[0].transform.position;
             cam.init();
@@ -150,8 +159,9 @@ public class Player : MonoBehaviour
         return (((maxIndex - index) * (maxSize * sizeMultiplier)) / maxIndex);
     }
 
-    public void addNewLink (Link newLink)
+    public void addNewLink (Transform collectibleLink)
     {
+        Link newLink = Instantiate(linkPrefab, transform);
         newLink.tag = "Link";
         newLink.init(links.Length, getSize(links.Length, links.Length + 1));
         newLink.addJoint();
@@ -177,7 +187,12 @@ public class Player : MonoBehaviour
         }
         newLinks[newLinks.Length - 1] = newLink;
         links = newLinks;
-        collectibleLinks.Remove(newLink);
+
+        if (collectibleLink != null)
+        {
+            collectibleLinks.Remove(collectibleLink);
+            Destroy(collectibleLink.gameObject);
+        }
     }
 
     public Vector3 getFirstHeadPosition ()

@@ -5,8 +5,7 @@ using UnityEngine;
 public class LevelGenerator : MonoBehaviour
 {
     public float perlinNoiseFactor;
-    public Transform headPrefab;
-    public Transform linkPrefab;
+    public Transform collectibleLinkPrefab;
     public int minCollectibleHeads;
     public int maxCollectibleHeads;
     public int minCollectibleLinks;
@@ -37,9 +36,8 @@ public class LevelGenerator : MonoBehaviour
         int numberOfCollectibleLinks = Random.Range(minCollectibleLinks, maxCollectibleLinks);
         for (int i = 0; i < numberOfCollectibleLinks; i++)
         {
-            Transform link = Instantiate(linkPrefab, new Vector3(Random.Range(boundsSize, terrainData.size.x - boundsSize), spawnHeight, Random.Range(boundsSize, terrainData.size.z - boundsSize)), Quaternion.identity, linksFolder);
+            Transform link = Instantiate(collectibleLinkPrefab, new Vector3(Random.Range(boundsSize, terrainData.size.x - boundsSize), spawnHeight, Random.Range(boundsSize, terrainData.size.z - boundsSize)), Quaternion.identity, linksFolder);
             link.name = "link" + i;
-            link.tag = "CollectibleLink";
         }
 
         // Generation of terrain
