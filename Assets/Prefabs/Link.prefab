@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e6bd386c3f22f4880180c3443a5e62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 1
-  drag: 0.5
+  mass: 3
+  drag: 1
   angularDrag: 0.2
   strengh: 20
   damper: 0.2
