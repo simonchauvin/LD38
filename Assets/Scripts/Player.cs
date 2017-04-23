@@ -19,10 +19,9 @@ public class Player : MonoBehaviour
 
     public float timeBetweenMove;
     public float rotationSpeed;
-    public float sizeMultiplier;
+    public float sizeIncreaseFactor;
     public float sizeChangeTime;
     public float minGroundDistance;
-    public float minSize;
     public float maxSize;
     public Link linkPrefab;
 
@@ -32,15 +31,20 @@ public class Player : MonoBehaviour
     private Transform front;
 
     private float lastMoveTime;
+    private float sizeMultiplier;
     private bool sizeChange;
-    private float originalSize;
-    private float targetSize;
     private float sizeChangeTimer;
     private bool canStart;
 
 
     private void Awake()
     {
+        lastMoveTime = 0f;
+        sizeMultiplier = 1;
+        sizeChange = false;
+        sizeChangeTimer = 0f;
+        canStart = false;
+
         cam = GameObject.FindObjectOfType<ThirdPersonCamera>();
         links = new Link[1];
         collectibleLinks = new List<Link>();
@@ -56,13 +60,6 @@ public class Player : MonoBehaviour
         {
             collectibleLinks.Add(linksFolder.GetChild(i).GetComponent<Link>());
         }
-
-        lastMoveTime = 0f;
-        sizeChange = false;
-        originalSize = 1f;
-        targetSize = 1f;
-        sizeChangeTimer = 0f;
-        canStart = false;
     }
 
     void Start ()
@@ -79,34 +76,6 @@ public class Player : MonoBehaviour
             {
                 addNewLink(Instantiate(linkPrefab));
             }
-
-            // Size increase
-            /*if (sizeChange)
-            {
-                float size = Mathf.Lerp(originalSize, targetSize, sizeChangeTimer / sizeChangeTime);
-                head.transform.localScale = new Vector3(size, size, size);
-                float oldRadius = linkRadius;
-                linkRadius *= size;
-
-                for (int i = 0; i < links.Count; i++)
-                {
-                    links[i].transform.localScale = new Vector3(size, size, size);
-                    if (i - 1 >= 0)
-                    {
-                        links[i].transform.position -= (links[i - 1].transform.position - links[i].transform.position).normalized * (linkRadius - oldRadius);
-                    }
-                    else
-                    {
-                        links[i].transform.position -= (head.transform.position - links[i].transform.position).normalized * (linkRadius - oldRadius);
-                    }
-                }
-                sizeChangeTimer += Time.deltaTime;
-
-                if (sizeChangeTimer >= sizeChangeTime)
-                {
-                    sizeChange = false;
-                }
-            }*/
 
             front.position = links[0].transform.position;
         }
@@ -169,7 +138,7 @@ public class Player : MonoBehaviour
 
     private float getSize(int index, int maxIndex)
     {
-        return ((maxIndex - index) * maxSize) / maxIndex;
+        return (((maxIndex - index) * (maxSize * sizeMultiplier)) / maxIndex);
     }
 
     public void addNewLink (Link newLink)
@@ -200,31 +169,6 @@ public class Player : MonoBehaviour
         newLinks[newLinks.Length - 1] = newLink;
         links = newLinks;
         collectibleLinks.Remove(newLink);
-
-        // Update size
-        sizeChange = true;
-        sizeChangeTimer = 0f;
-        originalSize = links[0].transform.localScale.x;
-        targetSize = originalSize * sizeMultiplier;
-        for (int i = 0; i < links.Length; i++)
-        {
-            //links[i].transform.localScale *= sizeMultiplier;
-            //links[i].GetComponent<HingeJoint>().autoConfigureConnectedAnchor = false;
-            if (i - 1 >= 0)
-            {
-                //Vector3 dist = links[i - 1].transform.position - links[i].transform.position;
-                //dist.y = 0f;
-                //links[i].transform.position -= (dist).normalized * linkRadius;
-            }
-            else
-            {
-                //Vector3 dist = head.transform.position - links[i].transform.position;
-                //dist.y = 0f;
-                //links[i].transform.position -= (dist).normalized * linkRadius;
-            }
-            //links[i].GetComponent<HingeJoint>().autoConfigureConnectedAnchor = true;
-        }
-        //increaseCollectiblesSize();
     }
 
     public Vector3 getFirstHeadPosition ()
@@ -246,7 +190,7 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < collectibleLinks.Count; i++)
         {
-            collectibleLinks[i].transform.localScale = new Vector3(targetSize, targetSize, targetSize);
+            collectibleLinks[i].transform.localScale = new Vector3(maxSize, maxSize, maxSize) * sizeMultiplier;
         }
     }
 }

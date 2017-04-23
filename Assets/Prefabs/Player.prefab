@@ -51,14 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40bfe7837c5ab3b43917cbeac5560b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenMove: 0.1
+  timeBetweenMove: 0.25
   rotationSpeed: 5
-  startingForceMultiplier: 10
-  forceMultiplierIncrease: 2
-  sizeMultiplier: 1.1
+  sizeIncreaseFactor: 1.01
   sizeChangeTime: 2
   minGroundDistance: 0.8
-  minSize: 1
   maxSize: 5
   linkPrefab: {fileID: 114571316466504076, guid: ddce6a0eda244304e96e5a82d6f02e0d,
     type: 2}
