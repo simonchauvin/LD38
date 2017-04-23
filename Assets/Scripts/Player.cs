@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     private List<Link> collectibleLinks;
     private Transform front;
 
-    private float linkRadius;
+    private float linkSize;
     private float lastMoveTime;
     private float forceMultiplier;
     private bool sizeChange;
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
         front.parent = transform;
 
         links[0] = Instantiate(linkPrefab, transform.position, Quaternion.identity, transform);
-        linkRadius = links[0].GetComponent<SphereCollider>().bounds.size.z;
+        linkSize = links[0].GetComponent<SphereCollider>().bounds.size.z;
         front.position = links[0].transform.position;
 
         Transform linksFolder = GameObject.Find("Links").transform;
@@ -154,16 +154,14 @@ public class Player : MonoBehaviour
                         links[0] = last;
                         links[0].init(0);
 
-                        //links[0].thisRigidbody.MovePosition(links[1].transform.position + linkRadius * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized);
-                        links[0].transform.position = links[1].transform.position + linkRadius * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
+                        links[0].transform.position = links[1].transform.position + linkSize * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
 
                         links[1].addJoint();
                         links[1].connect(links[0]);
                     }
                     else
                     {
-                        //links[0].thisRigidbody.MovePosition(links[0].transform.position + linkRadius * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized);
-                        links[0].transform.position = links[0].transform.position + linkRadius * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
+                        links[0].transform.position += linkSize * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
                     }
 
                     lastMoveTime = Time.time;
@@ -188,13 +186,13 @@ public class Player : MonoBehaviour
         {
             Vector3 dir = (links[links.Length - 2].transform.position - links[links.Length - 1].transform.position).normalized;
             dir.y = 0f;
-            newLink.transform.position = links[links.Length - 1].transform.position - dir * linkRadius;
+            newLink.transform.position = links[links.Length - 1].transform.position - dir * linkSize;
         }
         else
         {
             Vector3 dir = links[0].transform.forward;
             dir.y = 0f;
-            newLink.transform.position = links[0].transform.position - dir * linkRadius;
+            newLink.transform.position = links[0].transform.position - dir * linkSize;
         }
         newLink.connect(links[links.Length - 1]);
 

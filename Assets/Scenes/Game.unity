@@ -152,6 +152,21 @@ Prefab:
       propertyPath: unzoomSpeed
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114599439556624316, guid: 2e354f279d39cff47838e89d41d7bda2,
+        type: 2}
+      propertyPath: minDistanceHeight
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114599439556624316, guid: 2e354f279d39cff47838e89d41d7bda2,
+        type: 2}
+      propertyPath: minDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114599439556624316, guid: 2e354f279d39cff47838e89d41d7bda2,
+        type: 2}
+      propertyPath: maxDistance
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e354f279d39cff47838e89d41d7bda2, type: 2}
   m_IsPrefabParent: 0

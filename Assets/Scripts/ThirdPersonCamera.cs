@@ -25,7 +25,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     public void init ()
     {
-        transform.position = Player.instance.getFirstHeadPosition();
+        transform.position = Player.instance.getFirstHeadPosition() + new Vector3(0f, minDistanceHeight, 0f);
         hasStarted = true;
     }
 	
@@ -35,11 +35,11 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             // Follow player
             Vector3 direction = Player.instance.getHeadsBarycenter() - transform.position;
-            if (direction.magnitude > maxDistance)
+            if (new Vector3(direction.x, 0f, direction.z).magnitude > maxDistance)
             {
                 transform.position += new Vector3(direction.normalized.x, 0f, direction.normalized.z) * followSpeed * Time.deltaTime;
             }
-            else if (direction.magnitude < minDistance)
+            else if (new Vector3(direction.x, 0f, direction.z).magnitude < minDistance)
             {
                 transform.position -= new Vector3(direction.normalized.x, 0f, direction.normalized.z) * followSpeed * Time.deltaTime;
             }
