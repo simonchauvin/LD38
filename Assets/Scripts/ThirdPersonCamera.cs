@@ -24,7 +24,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     public void init ()
     {
-        transform.position = Player.instance.getFirstHeadPosition() + new Vector3(0f, minDistanceHeight, 0f);
+        transform.position = Player.instance.getFrontPosition() + new Vector3(0f, minDistanceHeight, 0f);
         hasStarted = true;
     }
 	
@@ -33,7 +33,7 @@ public class ThirdPersonCamera : MonoBehaviour
         if (hasStarted)
         {
             // Follow player
-            Vector3 playerPos = Player.instance.getHeadsBarycenter();
+            Vector3 playerPos = Player.instance.getFrontPosition();
             Vector3 direction = playerPos - transform.position;
             Vector3 planarDirection = new Vector3(direction.x, 0f, direction.z).normalized;
             Vector3 playerPlanarDirection = new Vector3(direction.x, playerPos.y, direction.z);

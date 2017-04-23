@@ -197,21 +197,13 @@ public class Player : MonoBehaviour
             collectibleLinks.Remove(collectibleLink);
             Destroy(collectibleLink.gameObject);
         }
+
+        sizeMultiplier *= sizeIncreaseFactor;
     }
 
-    public Vector3 getFirstHeadPosition ()
+    public Vector3 getFrontPosition ()
     {
-        return front.transform.position;
-    }
-
-    public Vector3 getHeadsBarycenter ()
-    {
-        Vector3 barycenter = Vector3.zero;
-        for (int i = 0; i < links.Length; i++)
-        {
-            barycenter += links[i].transform.position;
-        }
-        return barycenter / links.Length;
+        return front.position;
     }
 
     public void increaseCollectiblesSize ()

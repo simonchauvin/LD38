@@ -54,7 +54,7 @@ MonoBehaviour:
   speed: 10
   rotationSpeed: 5
   sizeIncreaseFactor: 1.01
-  minGroundDistance: 0.8
+  minGroundDistance: 0.25
   maxSize: 5
   linkPrefab: {fileID: 114571316466504076, guid: ddce6a0eda244304e96e5a82d6f02e0d,
     type: 2}
