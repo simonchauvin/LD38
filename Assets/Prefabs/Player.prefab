@@ -58,7 +58,7 @@ MonoBehaviour:
   sizeMultiplier: 1.1
   sizeChangeTime: 2
   minGroundDistance: 0.8
-  headPrefab: {fileID: 54409596909932244, guid: 28dd81931c9ea774b88c473ebd3d1c13,
-    type: 2}
+  minSize: 1
+  maxSize: 5
   linkPrefab: {fileID: 114571316466504076, guid: ddce6a0eda244304e96e5a82d6f02e0d,
     type: 2}

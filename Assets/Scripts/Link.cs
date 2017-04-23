@@ -15,6 +15,8 @@ public class Link : MonoBehaviour
 
     private bool grounded;
     private int index;
+    public float size { get; private set; }
+    public float radius { get; private set; }
 
 
     void Awake ()
@@ -25,7 +27,7 @@ public class Link : MonoBehaviour
         thisRigidbody.angularDrag = angularDrag;
 
         grounded = false;
-        index = 1;
+        index = 0;
     }
 
     void Start()
@@ -33,7 +35,7 @@ public class Link : MonoBehaviour
         
     }
 
-    public void init()
+    public void spawn()
     {
         RaycastHit hitInfo;
         if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
@@ -42,9 +44,12 @@ public class Link : MonoBehaviour
         }
     }
 
-    public void init (int index)
+    public void init (int index, float size)
     {
         this.index = index;
+        this.size = size;
+        this.radius = size / 2f;
+        transform.localScale = new Vector3(size, size, size);
     }
 
     void Update ()

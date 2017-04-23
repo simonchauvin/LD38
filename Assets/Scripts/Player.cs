@@ -19,11 +19,11 @@ public class Player : MonoBehaviour
 
     public float timeBetweenMove;
     public float rotationSpeed;
-    public float startingForceMultiplier;
-    public float forceMultiplierIncrease;
     public float sizeMultiplier;
     public float sizeChangeTime;
     public float minGroundDistance;
+    public float minSize;
+    public float maxSize;
     public Link linkPrefab;
 
     private ThirdPersonCamera cam;
@@ -31,9 +31,7 @@ public class Player : MonoBehaviour
     private List<Link> collectibleLinks;
     private Transform front;
 
-    private float linkSize;
     private float lastMoveTime;
-    private float forceMultiplier;
     private bool sizeChange;
     private float originalSize;
     private float targetSize;
@@ -50,7 +48,7 @@ public class Player : MonoBehaviour
         front.parent = transform;
 
         links[0] = Instantiate(linkPrefab, transform.position, Quaternion.identity, transform);
-        linkSize = links[0].GetComponent<SphereCollider>().bounds.size.z;
+        links[0].init(0, getSize(0, 1));
         front.position = links[0].transform.position;
 
         Transform linksFolder = GameObject.Find("Links").transform;
@@ -60,7 +58,6 @@ public class Player : MonoBehaviour
         }
 
         lastMoveTime = 0f;
-        forceMultiplier = startingForceMultiplier;
         sizeChange = false;
         originalSize = 1f;
         targetSize = 1f;
@@ -118,11 +115,11 @@ public class Player : MonoBehaviour
             canStart = true;
             for (int i = 0; i < links.Length; i++)
             {
-                links[i].init();
+                links[i].spawn();
             }
             for (int i = 0; i < collectibleLinks.Count; i++)
             {
-                collectibleLinks[i].init();
+                collectibleLinks[i].spawn();
             }
             front.position = links[0].transform.position;
             cam.init();
@@ -149,19 +146,19 @@ public class Player : MonoBehaviour
                         for (int i = links.Length - 1; i > 0; i--)
                         {
                             links[i] = links[i - 1];
-                            links[i].init(i);
+                            links[i].init(i, getSize(i, links.Length));
                         }
                         links[0] = last;
-                        links[0].init(0);
+                        links[0].init(0, getSize(0, links.Length));
 
-                        links[0].transform.position = links[1].transform.position + linkSize * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
+                        links[0].transform.position = links[1].transform.position + (links[0].radius + links[1].radius) * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
 
                         links[1].addJoint();
                         links[1].connect(links[0]);
                     }
                     else
                     {
-                        links[0].transform.position += linkSize * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
+                        links[0].transform.position += links[0].size * front.TransformDirection(new Vector3(0f, 0f, input.y)).normalized;
                     }
 
                     lastMoveTime = Time.time;
@@ -170,29 +167,28 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void addNewHead(Link newHead)
+    private float getSize(int index, int maxIndex)
     {
-        // TODO
-        newHead.tag = "Head";
+        return ((maxIndex - index) * maxSize) / maxIndex;
     }
 
     public void addNewLink (Link newLink)
     {
         newLink.tag = "Link";
-        newLink.init(links.Length + 1);
+        newLink.init(links.Length, getSize(links.Length, links.Length + 1));
         newLink.addJoint();
         newLink.transform.parent = transform;
         if (links.Length > 1)
         {
             Vector3 dir = (links[links.Length - 2].transform.position - links[links.Length - 1].transform.position).normalized;
             dir.y = 0f;
-            newLink.transform.position = links[links.Length - 1].transform.position - dir * linkSize;
+            newLink.transform.position = links[links.Length - 1].transform.position - dir * (links[links.Length - 1].radius + newLink.radius);
         }
         else
         {
             Vector3 dir = links[0].transform.forward;
             dir.y = 0f;
-            newLink.transform.position = links[0].transform.position - dir * linkSize;
+            newLink.transform.position = links[0].transform.position - dir * (links[0].radius + newLink.radius);
         }
         newLink.connect(links[links.Length - 1]);
 
@@ -210,9 +206,6 @@ public class Player : MonoBehaviour
         sizeChangeTimer = 0f;
         originalSize = links[0].transform.localScale.x;
         targetSize = originalSize * sizeMultiplier;
-        //head.transform.localScale *= sizeMultiplier;
-        //linkRadius *= sizeMultiplier;
-        //linkRadius = head.GetComponent<SphereCollider>().bounds.size.z;
         for (int i = 0; i < links.Length; i++)
         {
             //links[i].transform.localScale *= sizeMultiplier;
@@ -232,9 +225,6 @@ public class Player : MonoBehaviour
             //links[i].GetComponent<HingeJoint>().autoConfigureConnectedAnchor = true;
         }
         //increaseCollectiblesSize();
-
-        // Update multipliers
-        forceMultiplier += forceMultiplierIncrease;
     }
 
     public Vector3 getFirstHeadPosition ()
