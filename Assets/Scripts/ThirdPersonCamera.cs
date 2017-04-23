@@ -7,6 +7,8 @@ public class ThirdPersonCamera : MonoBehaviour
     public float unzoomSpeed;
     public float followSpeed;
     public float followHeightSpeed;
+    public float rotationSpeed;
+    public float smoothTime;
     public float minDistanceHeight;
     public float maxDistanceHeight;
     public float minDistance;
@@ -17,7 +19,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private bool hasStarted;
 
 
-	void Start ()
+    void Start ()
     {
         blobsCam = GameObject.Find("BlobsCamera").transform;
 
@@ -37,7 +39,7 @@ public class ThirdPersonCamera : MonoBehaviour
             // Follow player
             Vector3 playerPos = Player.instance.getHeadsBarycenter();
             Vector3 direction = playerPos - transform.position;
-            Vector3 planarDirection = new Vector3(direction.x, 0f, direction.z);
+            Vector3 planarDirection = new Vector3(direction.x, 0f, direction.z).normalized;
             Vector3 playerPlanarDirection = new Vector3(direction.x, playerPos.y, direction.z);
             if (playerPlanarDirection.magnitude >= maxDistance)
             {
@@ -58,14 +60,14 @@ public class ThirdPersonCamera : MonoBehaviour
             }
 
             // Looking at the player
-            transform.LookAt(playerPos);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
 
             // Unzooming
-            transform.position = new Vector3(transform.position.x, transform.position.y + unzoomSpeed * Time.deltaTime, transform.position.z);
+            //target.position = new Vector3(transform.position.x, transform.position.y + unzoomSpeed * Time.deltaTime, transform.position.z);
 
             // Update blobs camera
-            blobsCam.position = transform.position;
-            blobsCam.rotation = transform.rotation;
+            //blobsCam.position = transform.position;
+            //blobsCam.rotation = transform.rotation;
         }
     }
 }
