@@ -38,6 +38,7 @@ public class LevelGenerator : MonoBehaviour
         for (int i = 0; i < numberOfCollectibleLinks; i++)
         {
             Transform link = Instantiate(linkPrefab, new Vector3(Random.Range(boundsSize, terrainData.size.x - boundsSize), spawnHeight, Random.Range(boundsSize, terrainData.size.z - boundsSize)), Quaternion.identity, linksFolder);
+            link.name = "link" + i;
             link.tag = "CollectibleLink";
         }
 

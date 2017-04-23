@@ -96,13 +96,12 @@ public class Link : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("CollectibleLink"))
+        if (CompareTag("Link"))
         {
-            Player.instance.addNewLink(collision.collider.GetComponent<Link>());
-        }
-        else if (collision.collider.CompareTag("CollectibleHead"))
-        {
-            Player.instance.addNewHead(collision.collider.GetComponent<Link>());
+            if (collision.collider.CompareTag("CollectibleLink"))
+            {
+                Player.instance.addNewLink(collision.collider.GetComponent<Link>());
+            }
         }
     }
 }
