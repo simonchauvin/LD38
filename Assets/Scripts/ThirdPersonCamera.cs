@@ -4,30 +4,60 @@ using UnityEngine;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
+    public float unzoomSpeed;
     public float followSpeed;
+    public float followHeightSpeed;
+    public float minDistanceHeight;
     public float minDistance;
     public float maxDistance;
 
-    private Transform playerHead;
+    private Transform blobsCam;
+
+    private bool hasStarted;
 
 
 	void Start ()
     {
-        playerHead = Player.instance.getHead();
+        blobsCam = GameObject.Find("BlobsCamera").transform;
+
+        hasStarted = false;
+    }
+
+    public void init ()
+    {
+        transform.position = Player.instance.getFirstHeadPosition();
+        hasStarted = true;
     }
 	
 	void Update ()
     {
-        Vector3 direction = playerHead.position - transform.position;
-        if (direction.magnitude > maxDistance)
+        if (hasStarted)
         {
-            transform.position += new Vector3(direction.normalized.x, 0f, direction.normalized.z) * followSpeed * Time.deltaTime;
-        }
-        else if (direction.magnitude < minDistance)
-        {
-            transform.position -= new Vector3(direction.normalized.x, 0f, direction.normalized.z) * followSpeed * Time.deltaTime;
-        }
+            // Follow player
+            Vector3 direction = Player.instance.getHeadsBarycenter() - transform.position;
+            if (direction.magnitude > maxDistance)
+            {
+                transform.position += new Vector3(direction.normalized.x, 0f, direction.normalized.z) * followSpeed * Time.deltaTime;
+            }
+            else if (direction.magnitude < minDistance)
+            {
+                transform.position -= new Vector3(direction.normalized.x, 0f, direction.normalized.z) * followSpeed * Time.deltaTime;
+            }
 
-        transform.LookAt(playerHead);
+            if (transform.position.y - direction.y < minDistanceHeight)
+            {
+                transform.position += new Vector3(0f, followHeightSpeed * Time.deltaTime, 0f);
+            }
+
+            // Looking at the player
+            transform.LookAt(Player.instance.getHeadsBarycenter());
+
+            // Unzooming
+            transform.position = new Vector3(transform.position.x, transform.position.y + unzoomSpeed * Time.deltaTime, transform.position.z);
+
+            // Update blobs camera
+            blobsCam.position = transform.position;
+            blobsCam.rotation = transform.rotation;
+        }
     }
 }
