@@ -114,7 +114,14 @@ public class Player : MonoBehaviour
             RaycastHit hitInfo;
             if (Physics.Raycast(front.transform.position, -front.transform.up, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                front.transform.forward = Vector3.ProjectOnPlane(front.transform.forward, hitInfo.normal);
+                if (hitInfo.distance - links[0].size < minGroundDistance)
+                {
+                    front.forward = Vector3.ProjectOnPlane(front.transform.forward, hitInfo.normal);
+                }
+                else
+                {
+                    front.forward = Vector3.ProjectOnPlane(front.transform.forward, Vector3.up);
+                }
             }
             front.Rotate(front.transform.up, input.x * rotationSpeed);
 

@@ -105,9 +105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac038aa9a13a6134688ef6bdcd96cac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unzoomSpeed: 0
-  followSpeed: 5
-  followHeightSpeed: 5
+  unzoomSpeed: 0.1
+  followSpeed: 10
+  followHeightSpeed: 10
   rotationSpeed: 10
   smoothTime: 5
   minDistanceHeight: 50
