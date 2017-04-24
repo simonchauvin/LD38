@@ -54,15 +54,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundNoiseFactor: 100
-  detailsNoiseFactor: 10
-  maxGrassHeight: 50
-  minGrassProbability: 0.5
+  detailsNoiseFactor: 100
+  grassHeight: 30
+  grassHeightMargin: 4
+  grassBorder: 0.05
+  rockHeight: 70
+  rockHeightMargin: 5
   collectibleLinkPrefab: {fileID: 4442149100781808, guid: 2efdfe1146d93b548a341c532cfc9911,
     type: 2}
   minCollectibleHeads: 4
   maxCollectibleHeads: 8
-  minCollectibleLinks: 200
-  maxCollectibleLinks: 400
+  minCollectibleLinks: 80
+  maxCollectibleLinks: 180
   spawnHeight: 500
   boundsSize: 25
 --- !u!154 &154578478293422214
