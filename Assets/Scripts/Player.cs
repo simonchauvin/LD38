@@ -71,10 +71,10 @@ public class Player : MonoBehaviour
         if (canStart)
         {
             // Debug
-            if (Input.GetKey(KeyCode.F))
+            /*if (Input.GetKey(KeyCode.F))
             {
                 addNewLink(null);
-            }
+            }*/
 
             front.position = links[0].transform.position;
             lerpLink.position = front.position + front.forward * links[0].size;

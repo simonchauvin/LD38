@@ -108,6 +108,48 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &412848305
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4843567276758104, guid: ff3d29e6dd587824e8f8306a826b800f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4843567276758104, guid: ff3d29e6dd587824e8f8306a826b800f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4843567276758104, guid: ff3d29e6dd587824e8f8306a826b800f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4843567276758104, guid: ff3d29e6dd587824e8f8306a826b800f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4843567276758104, guid: ff3d29e6dd587824e8f8306a826b800f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4843567276758104, guid: ff3d29e6dd587824e8f8306a826b800f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4843567276758104, guid: ff3d29e6dd587824e8f8306a826b800f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4843567276758104, guid: ff3d29e6dd587824e8f8306a826b800f, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: ff3d29e6dd587824e8f8306a826b800f, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &576600349
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +231,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.502722, g: 0.50735295, b: 0.1716047, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -320,6 +362,21 @@ Prefab:
       propertyPath: rotationSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 20007788354574316, guid: 2e354f279d39cff47838e89d41d7bda2,
+        type: 2}
+      propertyPath: m_BackGroundColor.r
+      value: 0.14705884
+      objectReference: {fileID: 0}
+    - target: {fileID: 20007788354574316, guid: 2e354f279d39cff47838e89d41d7bda2,
+        type: 2}
+      propertyPath: m_BackGroundColor.g
+      value: 0.020544987
+      objectReference: {fileID: 0}
+    - target: {fileID: 20007788354574316, guid: 2e354f279d39cff47838e89d41d7bda2,
+        type: 2}
+      propertyPath: m_BackGroundColor.b
+      value: 0.020544987
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2e354f279d39cff47838e89d41d7bda2, type: 2}
   m_IsPrefabParent: 0
@@ -403,6 +460,11 @@ Prefab:
     - target: {fileID: 4343555284449124, guid: 37f2d7ece501e48419e1f80098e36f13, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 218312097386236980, guid: 37f2d7ece501e48419e1f80098e36f13,
+        type: 2}
+      propertyPath: m_TreeDistance
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 37f2d7ece501e48419e1f80098e36f13, type: 2}
