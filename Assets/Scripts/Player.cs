@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Cameras;
 
 public class Player : MonoBehaviour
 {
@@ -53,18 +54,16 @@ public class Player : MonoBehaviour
         links[0].init(0, getSize(0, 1));
         front.position = links[0].transform.position;
         lerpLink.position = front.position + front.forward * links[0].size;
+    }
 
+    void Start ()
+    {
         Transform linksFolder = GameObject.Find("Links").transform;
         for (int i = 0; i < linksFolder.childCount; i++)
         {
             collectibleLinks.Add(linksFolder.GetChild(i));
         }
     }
-
-    void Start ()
-    {
-        
-	}
 	
 	void Update ()
     {
