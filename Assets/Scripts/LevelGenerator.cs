@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    public float perlinNoiseFactor;
+    public float groundNoiseFactor;
+    public float detailsNoiseFactor;
+    public float maxGrassHeight;
+    public float minGrassProbability;
     public Transform collectibleLinkPrefab;
     public int minCollectibleHeads;
     public int maxCollectibleHeads;
@@ -40,17 +43,45 @@ public class LevelGenerator : MonoBehaviour
             link.name = "link" + i;
         }
 
-        // Generation of terrain
         Vector2 orig = new Vector2(Random.value * 100f, Random.value * 100f);
+
+        // Generation of terrain
         float[,] heights = terrainData.GetHeights(0, 0, terrainData.heightmapWidth, terrainData.heightmapHeight);
         for (int i = 0; i < terrainData.heightmapWidth; i++)
         {
             for (int j = 0; j < terrainData.heightmapHeight; j++)
             {
-                heights[i, j] = Mathf.PerlinNoise(orig.x + i / perlinNoiseFactor, orig.y + j / perlinNoiseFactor) / 2f;
+                heights[i, j] = Mathf.PerlinNoise(orig.x + i / groundNoiseFactor, orig.y + j / groundNoiseFactor) / 2f;
             }
         }
         terrainData.SetHeights(0, 0, heights);
+
+        // Generation of details
+        float resolution = terrainData.heightmapResolution / (float)terrainData.detailResolution;
+        orig = new Vector2(Random.value * 220f, Random.value * 220f);
+        int[,] details = terrainData.GetDetailLayer(0, 0, terrainData.detailWidth, terrainData.detailHeight, 0);
+        for (int i = 0; i < terrainData.detailWidth; i++)
+        {
+            for (int j = 0; j < terrainData.detailHeight; j++)
+            {
+                if (heights[Mathf.FloorToInt(resolution * i), Mathf.FloorToInt(resolution * j)] < maxGrassHeight / terrainData.size.y)
+                {
+                    if (Mathf.PerlinNoise(orig.x + i / detailsNoiseFactor, orig.y + j / detailsNoiseFactor) > minGrassProbability)
+                    {
+                        details[i, j] = 1;
+                    }
+                    else
+                    {
+                        details[i, j] = 0;
+                    }
+                }
+                else
+                {
+                    details[i, j] = 0;
+                }
+            }
+        }
+        terrainData.SetDetailLayer(0, 0, 0, details);
     }
 	
 	void Update ()

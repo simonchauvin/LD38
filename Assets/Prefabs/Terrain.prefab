@@ -53,7 +53,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044c0ba1ddc66774eac850fcfabda56f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perlinNoiseFactor: 100
+  groundNoiseFactor: 100
+  detailsNoiseFactor: 10
+  maxGrassHeight: 50
+  minGrassProbability: 0.5
   collectibleLinkPrefab: {fileID: 4442149100781808, guid: 2efdfe1146d93b548a341c532cfc9911,
     type: 2}
   minCollectibleHeads: 4
@@ -83,9 +86,9 @@ Terrain:
   m_TerrainData: {fileID: 15600000, guid: c6087feb322afd44b8e7ec84d079d69e, type: 2}
   m_TreeDistance: 2000
   m_TreeBillboardDistance: 50
-  m_TreeCrossFadeLength: 5
+  m_TreeCrossFadeLength: 8
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
+  m_DetailObjectDistance: 250
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
