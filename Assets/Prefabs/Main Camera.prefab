@@ -38,13 +38,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1663620812818984}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 433, y: 175, z: 297}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &20007788354574316
 Camera:
   m_ObjectHideFlags: 1
@@ -121,12 +121,12 @@ MonoBehaviour:
   unzoomSpeed: 0.1
   followSpeed: 10
   followHeightSpeed: 10
-  rotationSpeed: 5
-  smoothTime: 5
-  minDistanceHeight: 50
-  maxDistanceHeight: 100
-  minDistance: 50
-  maxDistance: 100
+  rotationSpeed: 1
+  startMinDistance: 20
+  startMaxDistance: 40
+  startMinDistanceHeight: 10
+  startMaxDistanceHeight: 20
+  rotationRange: {x: 90, y: 360}
 --- !u!124 &124562495323441794
 Behaviour:
   m_ObjectHideFlags: 1
