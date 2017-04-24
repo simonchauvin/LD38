@@ -123,9 +123,7 @@ MonoBehaviour:
   followHeightSpeed: 10
   rotationSpeed: 1
   startMinDistance: 20
-  startMaxDistance: 40
-  startMinDistanceHeight: 10
-  startMaxDistanceHeight: 20
+  startMinDistanceHeight: 20
   rotationRange: {x: 90, y: 360}
 --- !u!124 &124562495323441794
 Behaviour:

@@ -9,9 +9,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public float followHeightSpeed;
     public float rotationSpeed;
     public float startMinDistance;
-    public float startMaxDistance;
     public float startMinDistanceHeight;
-    public float startMaxDistanceHeight;
     public Vector2 rotationRange;
 
     private Quaternion originalRotation;
@@ -19,9 +17,7 @@ public class ThirdPersonCamera : MonoBehaviour
     private Vector3 followVelocity;
     private bool hasStarted;
     private float minDistance;
-    private float maxDistance;
     private float minDistanceHeight;
-    private float maxDistanceHeight;
 
 
     void Start ()
@@ -32,9 +28,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public void init ()
     {
         minDistance = startMinDistance;
-        maxDistance = startMaxDistance;
         minDistanceHeight = startMinDistanceHeight;
-        maxDistanceHeight = startMaxDistanceHeight;
 
         transform.position = Player.instance.getFrontPosition() + new Vector3(minDistance, minDistanceHeight, minDistance);
         transform.rotation = Quaternion.LookRotation(Player.instance.getFrontPosition() - transform.position);
@@ -47,28 +41,13 @@ public class ThirdPersonCamera : MonoBehaviour
         if (hasStarted)
         {
             // Follow player
-            Vector3 playerPos = Player.instance.getFrontPosition();
+            Vector3 playerPos = Player.instance.getInterpolatedFrontPosition();
             Vector3 direction = playerPos - transform.position;
             Debug.DrawRay(transform.position, direction, Color.red);
             Vector3 planarDirection = new Vector3(direction.x, 0f, direction.z);
             Debug.DrawRay(transform.position, planarDirection, Color.blue);
-            if (planarDirection.magnitude >= maxDistance)
-            {
-                transform.position += planarDirection.normalized * followSpeed * Time.deltaTime;
-            }
-            else if (planarDirection.magnitude < minDistance)
-            {
-                transform.position -= planarDirection.normalized * followSpeed * Time.deltaTime;
-            }
-
-            if (transform.position.y - playerPos.y < minDistanceHeight)
-            {
-                transform.position += new Vector3(0f, followHeightSpeed * Time.deltaTime, 0f);
-            }
-            else if (transform.position.y - playerPos.y >= maxDistanceHeight)
-            {
-                transform.position -= new Vector3(0f, followHeightSpeed * Time.deltaTime, 0f);
-            }
+            
+            transform.position = Vector3.Lerp(transform.position, playerPos - planarDirection.normalized * minDistance + new Vector3(0f, minDistanceHeight, 0f), Time.deltaTime * followSpeed);
 
             // Looking at the player
             lookAt(playerPos);

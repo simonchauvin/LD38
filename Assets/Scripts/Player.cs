@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
     private float sizeMultiplier;
     private bool canStart;
     private float moveAccu;
+    private Vector3 interpolatedFrontPosition;
 
 
     private void Awake()
@@ -54,6 +55,8 @@ public class Player : MonoBehaviour
         links[0].init(0, getSize(0, 1));
         front.position = links[0].transform.position;
         lerpLink.position = front.position + front.forward * links[0].size;
+
+        interpolatedFrontPosition = front.position;
     }
 
     void Start ()
@@ -100,6 +103,7 @@ public class Player : MonoBehaviour
             }
             front.position = links[0].transform.position;
             lerpLink.position = front.position + front.forward * links[0].size;
+            interpolatedFrontPosition = front.position;
             cam.init();
         }
     }
@@ -154,11 +158,14 @@ public class Player : MonoBehaviour
 
                     moveAccu = 0f;
                     lerpLink.localScale = Vector3.one;
+                    //interpolatedFrontPosition = front.position;
                 }
                 else
                 {
-                    float newScale = links[0].size * (moveAccu / (links[links.Length - 1].radius + links[0].radius));
+                    float amount = moveAccu / (links[links.Length - 1].radius + links[0].radius);
+                    float newScale = links[0].size * amount;
                     lerpLink.localScale = new Vector3(newScale, newScale, newScale);
+                    interpolatedFrontPosition = front.position + (lerpLink.position - front.position) * amount;
                 }
             }
         }
@@ -210,6 +217,11 @@ public class Player : MonoBehaviour
     public Vector3 getFrontPosition ()
     {
         return front.position;
+    }
+
+    public Vector3 getInterpolatedFrontPosition ()
+    {
+        return interpolatedFrontPosition;
     }
 
     public void increaseCollectiblesSize ()
