@@ -158,7 +158,6 @@ public class Player : MonoBehaviour
 
                     moveAccu = 0f;
                     lerpLink.localScale = Vector3.one;
-                    //interpolatedFrontPosition = front.position;
                 }
                 else
                 {
@@ -173,6 +172,7 @@ public class Player : MonoBehaviour
 
     private float getSize(int index, int maxIndex)
     {
+        // TODO limit size decrease when there are too few links
         return (((maxIndex - index) * (maxSize * sizeMultiplier)) / maxIndex);
     }
 
@@ -212,6 +212,7 @@ public class Player : MonoBehaviour
         }
 
         sizeMultiplier *= sizeIncreaseFactor;
+        cam.updateZoom();
     }
 
     public Vector3 getFrontPosition ()

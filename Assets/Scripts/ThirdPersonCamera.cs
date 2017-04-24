@@ -5,6 +5,7 @@ using UnityEngine;
 public class ThirdPersonCamera : MonoBehaviour
 {
     public float unzoomSpeed;
+    public float unzoomFactor;
     public float followSpeed;
     public float followHeightSpeed;
     public float rotationSpeed;
@@ -83,5 +84,11 @@ public class ThirdPersonCamera : MonoBehaviour
 
         // and update the gameobject itself
         transform.localRotation = originalRotation * Quaternion.Euler(-followAngles.x, followAngles.y, 0);
+    }
+
+    public void updateZoom ()
+    {
+        minDistance *= unzoomFactor;
+        minDistanceHeight *= unzoomFactor;
     }
 }

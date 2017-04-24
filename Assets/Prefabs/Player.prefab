@@ -53,9 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   rotationSpeed: 5
-  sizeIncreaseFactor: 1.01
+  sizeIncreaseFactor: 1.025
   minGroundDistance: 0.25
-  maxSize: 5
+  maxSize: 1
   linkPrefab: {fileID: 114571316466504076, guid: ddce6a0eda244304e96e5a82d6f02e0d,
     type: 2}
   lerpLinkPrefab: {fileID: 4442149100781808, guid: 1a9f144f2eb13f14a8c8853b5c640928,

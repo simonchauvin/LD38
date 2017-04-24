@@ -14,7 +14,6 @@ public class Link : MonoBehaviour
     private SpringJoint thisJoint;
 
     private bool grounded;
-    private int index;
     public float size { get; private set; }
     public float radius { get; private set; }
 
@@ -27,7 +26,6 @@ public class Link : MonoBehaviour
         thisRigidbody.angularDrag = angularDrag;
 
         grounded = false;
-        index = 0;
     }
 
     void Start()
@@ -37,7 +35,6 @@ public class Link : MonoBehaviour
 
     public void init (int index, float size)
     {
-        this.index = index;
         this.size = size;
         this.radius = size / 2f;
         transform.localScale = new Vector3(size, size, size);
