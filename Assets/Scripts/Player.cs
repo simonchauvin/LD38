@@ -119,13 +119,16 @@ public class Player : MonoBehaviour
                 if (hitInfo.distance - links[0].size < minGroundDistance)
                 {
                     front.forward = Vector3.ProjectOnPlane(front.transform.forward, hitInfo.normal);
+                    lerpLink.forward = front.forward;
                 }
                 else
                 {
                     front.forward = Vector3.ProjectOnPlane(front.transform.forward, Vector3.up);
+                    lerpLink.forward = front.forward;
                 }
             }
             front.Rotate(front.transform.up, input.x * rotationSpeed);
+            lerpLink.Rotate(front.transform.up, input.x * rotationSpeed);
 
             // Body movement
             if (input.y > 0)
