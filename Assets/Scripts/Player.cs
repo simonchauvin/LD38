@@ -72,13 +72,13 @@ public class Player : MonoBehaviour
         if (canStart)
         {
             // Debug
-            /*if (Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.F))
             {
                 addNewLink(null);
-            }*/
+            }
 
             front.position = links[0].transform.position;
-            lerpLink.position = front.position + front.forward * links[0].size;
+            lerpLink.position = (front.position + front.forward * links[0].size) + new Vector3(0f, (lerpLink.localScale.y - links[0].transform.localScale.y) / 2f, 0f);
         }
         else
         {
@@ -119,16 +119,26 @@ public class Player : MonoBehaviour
                 if (hitInfo.distance - links[0].size < minGroundDistance)
                 {
                     front.forward = Vector3.ProjectOnPlane(front.transform.forward, hitInfo.normal);
-                    lerpLink.forward = front.forward;
                 }
                 else
                 {
                     front.forward = Vector3.ProjectOnPlane(front.transform.forward, Vector3.up);
-                    lerpLink.forward = front.forward;
                 }
             }
             front.Rotate(front.transform.up, input.x * rotationSpeed);
-            lerpLink.Rotate(front.transform.up, input.x * rotationSpeed);
+
+            if (Physics.Raycast(lerpLink.position, -lerpLink.up, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            {
+                if (hitInfo.distance - lerpLink.localScale.y < minGroundDistance)
+                {
+                    lerpLink.forward = Vector3.ProjectOnPlane(lerpLink.forward, hitInfo.normal);
+                }
+                else
+                {
+                    lerpLink.forward = Vector3.ProjectOnPlane(lerpLink.forward, Vector3.up);
+                }
+            }
+            lerpLink.Rotate(lerpLink.up, input.x * rotationSpeed);
 
             // Body movement
             if (input.y > 0)
