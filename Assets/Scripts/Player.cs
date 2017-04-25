@@ -156,7 +156,7 @@ public class Player : MonoBehaviour
                     }
 
                     moveAccu = 0f;
-                    lerpLink.localScale = new Vector3(links[0].size, links[0].size, links[0].size);
+                    lerpLink.localScale = Vector3.zero;
                 }
                 else
                 {
@@ -171,10 +171,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    private float getSize(int index, int maxIndex)
+    private float getSize(int index, int indexCount)
     {
-        // TODO limit size decrease when there are too few links
-        return (((maxIndex - index) * (maxSize * sizeMultiplier)) / maxIndex);
+        return (((indexCount - index) * (maxSize * sizeMultiplier)) / indexCount) + (maxSize * sizeMultiplier) / 2f;
     }
 
     public void addNewLink (Transform collectibleLink)
