@@ -156,7 +156,7 @@ public class Player : MonoBehaviour
                     }
 
                     moveAccu = 0f;
-                    lerpLink.localScale = Vector3.one;
+                    lerpLink.localScale = new Vector3(links[0].size, links[0].size, links[0].size);
                 }
                 else
                 {
@@ -164,6 +164,8 @@ public class Player : MonoBehaviour
                     float newScale = links[0].size * amount;
                     lerpLink.localScale = new Vector3(newScale, newScale, newScale);
                     interpolatedFrontPosition = front.position + (lerpLink.position - front.position) * amount;
+                    newScale = links[links.Length - 1].size * (1f - amount);
+                    links[links.Length - 1].transform.localScale = new Vector3(newScale, newScale, newScale);
                 }
             }
         }
