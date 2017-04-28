@@ -17,8 +17,9 @@ public class Player : MonoBehaviour
 		}
 	}
 
-    public float speed;
+    public float startingSpeed;
     public float rotationSpeed;
+    public float speedIncreaseFactor;
     public float sizeIncreaseFactor;
     public float minGroundDistance;
     public float maxSize;
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
     private Transform front;
     private Transform lerpLink;
 
+    private float speed;
     private float sizeMultiplier;
     private bool canStart;
     private float moveAccu;
@@ -39,6 +41,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        speed = startingSpeed;
         sizeMultiplier = 1;
         canStart = false;
         moveAccu = 0f;
@@ -155,6 +158,12 @@ public class Player : MonoBehaviour
                             links[i] = links[i - 1];
                             links[i].init(i, getSize(i, links.Length));
                         }
+
+                        for (int i = links.Length - 1; i > 0; i--)
+                        {
+                            links[i].reposition(links[i - 1]);
+                        }
+
                         links[0] = last;
                         links[0].init(0, getSize(0, links.Length));
 
@@ -225,6 +234,7 @@ public class Player : MonoBehaviour
         }
 
         sizeMultiplier *= sizeIncreaseFactor;
+        speed *= speedIncreaseFactor;
         cam.updateZoom();
     }
 

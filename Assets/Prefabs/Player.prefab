@@ -51,8 +51,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40bfe7837c5ab3b43917cbeac5560b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  startingSpeed: 5
   rotationSpeed: 5
+  speedIncreaseFactor: 1.025
   sizeIncreaseFactor: 1.025
   minGroundDistance: 0.25
   maxSize: 1

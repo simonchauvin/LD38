@@ -13,7 +13,6 @@ public class Link : MonoBehaviour
     public Rigidbody thisRigidbody { get; private set; }
     private SpringJoint thisJoint;
 
-    private bool grounded;
     public float size { get; private set; }
     public float radius { get; private set; }
 
@@ -24,8 +23,6 @@ public class Link : MonoBehaviour
         thisRigidbody.mass = mass;
         thisRigidbody.drag = drag;
         thisRigidbody.angularDrag = angularDrag;
-
-        grounded = false;
     }
 
     void Start()
@@ -40,6 +37,11 @@ public class Link : MonoBehaviour
         transform.localScale = new Vector3(size, size, size);
     }
 
+    public void reposition (Link nextLink)
+    {
+        transform.position = nextLink.transform.position - (nextLink.transform.position - transform.position).normalized * (radius + nextLink.radius);
+    }
+
     void Update ()
     {
         
@@ -52,13 +54,11 @@ public class Link : MonoBehaviour
         {
             if (hitInfo.distance - radius < Player.instance.minGroundDistance)
             {
-                grounded = true;
                 thisRigidbody.drag = drag;
                 transform.forward = Vector3.ProjectOnPlane(transform.forward, hitInfo.normal);
             }
             else
             {
-                grounded = false;
                 thisRigidbody.drag = 0f;
             }
         }

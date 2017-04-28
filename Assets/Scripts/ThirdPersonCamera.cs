@@ -28,8 +28,8 @@ public class ThirdPersonCamera : MonoBehaviour
 
     public void init ()
     {
-        minDistance = startMinDistance;
-        minDistanceHeight = startMinDistanceHeight;
+        minDistance = startMinDistance * Player.instance.maxSize;
+        minDistanceHeight = startMinDistanceHeight * Player.instance.maxSize;
 
         transform.position = Player.instance.getFrontPosition() + new Vector3(minDistance, minDistanceHeight, minDistance);
         transform.rotation = Quaternion.LookRotation(Player.instance.getFrontPosition() - transform.position);
